@@ -11,6 +11,19 @@ function encodeSlug(slug: string): string {
   return slug.split("/").map(encodeURIComponent).join("/");
 }
 
+// 노트별 세부 분류 라벨(예: Photographer). 사이트 루트의 random-labels.json에서 읽는다.
+// 파일이 없거나 읽지 못하면 기본 라벨(Wiki)로 표시한다.
+let labelsPromise: Promise<Record<string, string>> | null = null;
+
+function loadLabels(): Promise<Record<string, string>> {
+  if (!labelsPromise) {
+    labelsPromise = fetch("./random-labels.json")
+      .then((res) => (res.ok ? res.json() : {}))
+      .catch(() => ({}));
+  }
+  return labelsPromise;
+}
+
 async function render() {
   const containers = document.querySelectorAll<HTMLElement>(".random-notes");
   if (containers.length === 0) return;
@@ -22,6 +35,8 @@ async function render() {
     console.error("[RandomNotes] 색인을 불러오지 못했습니다:", error);
     return;
   }
+
+  const labels = await loadLabels();
 
   containers.forEach((container) => {
     const list = container.querySelector<HTMLElement>(".random-notes__list");
@@ -44,7 +59,8 @@ async function render() {
 
       const label = document.createElement("span");
       label.className = "random-notes__label";
-      label.textContent = LABELS[note.category];
+      const detail = note.category === "wiki" && note.filePath ? labels[note.filePath] : undefined;
+      label.textContent = detail || LABELS[note.category];
 
       li.append(link, label);
       return li;

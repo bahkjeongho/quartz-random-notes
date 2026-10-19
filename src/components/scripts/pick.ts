@@ -15,6 +15,7 @@ export interface PickedNote {
   slug: string;
   title: string;
   category: Category;
+  filePath?: string;
 }
 
 /** 색인의 slug를 분야로 분류한다. 노트가 아닌 페이지(홈, 태그, 폴더 페이지)는 null. */
@@ -54,7 +55,7 @@ export function pickNotes(
     const category = classify(slug, entry?.filePath);
     if (!category) continue;
     const title = entry?.title || slug.split("/").pop() || slug;
-    pools[category].push({ slug, title, category });
+    pools[category].push({ slug, title, category, filePath: entry?.filePath });
   }
 
   const wikiN = Math.round(opts.total * opts.wikiRatio);
