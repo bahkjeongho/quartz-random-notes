@@ -1,23 +1,19 @@
 {
-  "name": "@quartz-community/plugin-template",
+  "name": "quartz-random-notes",
   "version": "0.1.0",
-  "description": "Template repository for Quartz community plugins.",
+  "description": "Quartz component that shows a random selection of notes on the home page.",
   "type": "module",
   "license": "MIT",
   "author": "Quartz Community",
   "homepage": "https://quartz.jzhao.xyz",
   "repository": {
     "type": "git",
-    "url": "https://github.com/quartz-community/plugin-template"
+    "url": "https://github.com/bahkjeongho/quartz-random-notes"
   },
   "keywords": [
     "quartz",
     "quartz-plugin",
-    "plugin-template",
-    "remark",
-    "rehype",
-    "mdast",
-    "hast"
+    "component"
   ],
   "files": [
     "dist",
@@ -97,30 +93,26 @@
     "@changesets/cli": "^2.29.0"
   },
   "quartz": {
-    "name": "plugin-template",
-    "displayName": "Plugin Template",
-    "category": "transformer",
-    "version": "1.0.0",
+    "name": "random-notes",
+    "displayName": "Random Notes",
+    "category": [
+      "component"
+    ],
+    "version": "0.1.0",
     "quartzVersion": ">=5.0.0",
     "dependencies": [],
     "defaultOrder": 50,
     "defaultEnabled": true,
-    "defaultOptions": {},
-    "optionSchema": {
-      "highlightToken": {
-        "type": "enum",
-        "values": [
-          "==",
-          "**",
-          "~~"
-        ]
-      }
+    "defaultOptions": {
+      "total": 15,
+      "wikiRatio": 0.7,
+      "musicShare": 0.5
     },
     "components": {
-      "ExampleComponent": {
-        "displayName": "Example Component",
-        "defaultPosition": "right",
-        "defaultPriority": 50
+      "RandomNotes": {
+        "displayName": "Random Notes",
+        "defaultPosition": "beforeBody",
+        "defaultPriority": 30
       }
     }
   },

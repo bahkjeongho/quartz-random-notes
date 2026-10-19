@@ -1,0 +1,24 @@
+.random-notes {
+  margin: 1.5rem 0;
+
+  .random-notes__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .random-notes__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--lightgray);
+  }
+
+  .random-notes__label {
+    flex-shrink: 0;
+    color: var(--gray);
+    font-size: 0.8rem;
+  }
+}
