@@ -2,10 +2,17 @@ import { pickNotes } from "./pick";
 import type { Category } from "./pick";
 
 const LABELS: Record<Category, string> = {
+  thoughts: "Thoughts",
   wiki: "Wiki",
   music: "Music",
   architecture: "Architecture",
 };
+
+// 0도 유효한 값이다(예: thoughtsRatio 0). 숫자가 아닐 때만 기본값을 쓴다.
+function num(value: string | undefined, fallback: number): number {
+  const n = Number(value);
+  return value === undefined || value === "" || Number.isNaN(n) ? fallback : n;
+}
 
 function encodeSlug(slug: string): string {
   return slug.split("/").map(encodeURIComponent).join("/");
@@ -43,9 +50,10 @@ async function render() {
     if (!list) return;
 
     const notes = pickNotes(index, {
-      total: Number(container.dataset.total) || 15,
-      wikiRatio: Number(container.dataset.wikiRatio) || 0.7,
-      musicShare: Number(container.dataset.musicShare) || 0.5,
+      total: num(container.dataset.total, 15),
+      wikiRatio: num(container.dataset.wikiRatio, 0.6),
+      thoughtsRatio: num(container.dataset.thoughtsRatio, 0.2),
+      musicShare: num(container.dataset.musicShare, 0.5),
     });
 
     const items = notes.map((note) => {

@@ -105,7 +105,8 @@
     "defaultEnabled": true,
     "defaultOptions": {
       "total": 15,
-      "wikiRatio": 0.7,
+      "wikiRatio": 0.6,
+      "thoughtsRatio": 0.2,
       "musicShare": 0.5
     },
     "components": {
