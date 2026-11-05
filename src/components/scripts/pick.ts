@@ -19,10 +19,14 @@ export interface PickedNote {
   filePath?: string;
 }
 
+/** 홈에서 뽑지 않는 폴더(검색과 링크로는 열린다). K-Pop 그룹 멤버 개인 노트가 모여 있다. */
+export const HIDDEN_PREFIXES = ["2-wiki/23-k-pop-idol/"];
+
 /** 색인의 slug를 분야로 분류한다. 노트가 아닌 페이지(홈, 태그, 폴더 페이지)는 null. */
 export function classify(slug: string, filePath?: string): Category | null {
   if (!slug || slug === "index" || slug.endsWith("/index")) return null;
   if (slug === "tags" || slug.startsWith("tags/")) return null;
+  if (HIDDEN_PREFIXES.some((prefix) => slug.startsWith(prefix))) return null;
   if (typeof filePath === "string" && filePath !== "" && !filePath.endsWith(".md")) return null;
   // 폴더 페이지는 filePath가 없다. 루트 위치의 slug는 폴더 페이지일 수 있으므로 제외한다.
   if (!filePath && !slug.includes("/")) return null;
