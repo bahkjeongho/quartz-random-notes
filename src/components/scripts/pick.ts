@@ -19,8 +19,8 @@ export interface PickedNote {
   filePath?: string;
 }
 
-/** 홈에서 뽑지 않는 폴더(검색과 링크로는 열린다). K-Pop 그룹 멤버 개인 노트가 모여 있다. */
-export const HIDDEN_PREFIXES = ["2-wiki/23-k-pop-idol/"];
+/** 홈에서 뽑지 않는 폴더(검색과 링크로는 열린다). K-Pop 그룹 멤버 개인 노트(23)와 학교 전공·프로그램 노트(24)가 모여 있다. */
+export const HIDDEN_PREFIXES = ["2-wiki/23-k-pop-idol/", "2-wiki/24-academic-program/"];
 
 /** 색인의 slug를 분야로 분류한다. 노트가 아닌 페이지(홈, 태그, 폴더 페이지)는 null. */
 export function classify(slug: string, filePath?: string): Category | null {

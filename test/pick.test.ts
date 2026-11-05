@@ -22,6 +22,7 @@ function makeIndex(thoughts = 12) {
 describe("classify: 숨김 폴더", () => {
   it("K-Pop 멤버 폴더는 뽑지 않는다", () => {
     expect(classify("2-wiki/23-k-pop-idol/rm", "2 Wiki/23 K-Pop Idol/RM.md")).toBeNull();
+    expect(classify("2-wiki/24-academic-program/ma-fashion-csm", "2 Wiki/24 Academic Program/MA Fashion (CSM).md")).toBeNull();
     expect(classify("2-wiki/aespa", "2 Wiki/aespa.md")).toBe("wiki");
   });
 });
