@@ -19,12 +19,13 @@ export interface PickedNote {
   filePath?: string;
 }
 
-/** 홈에서 뽑지 않는 폴더(검색과 링크로는 열린다). K-Pop 그룹 멤버 개인 노트(23)와 학교 전공·프로그램 노트(24), 스포츠 팀 노트(25), 학술지 노트(26)가 모여 있다. */
+/** 홈에서 뽑지 않는 폴더(검색과 링크로는 열린다). K-Pop 그룹 멤버 개인 노트(A2)와 학교 전공·프로그램 노트(A3), 스포츠 팀 노트(A5), 학술지 노트(A4), 허브(A1)가 모여 있다. */
 export const HIDDEN_PREFIXES = [
-  "2-wiki/23-k-pop-idol/",
-  "2-wiki/24-academic-program/",
-  "2-wiki/25-sports-team/",
-  "2-wiki/26-journal/",
+  "a_wiki/a1_hub/",
+  "a_wiki/a2_k-pop-idol/",
+  "a_wiki/a3_academic-program/",
+  "a_wiki/a4_journal/",
+  "a_wiki/a5_sports-team/",
 ];
 
 /** 색인의 slug를 분야로 분류한다. 노트가 아닌 페이지(홈, 태그, 폴더 페이지)는 null. */
@@ -35,10 +36,10 @@ export function classify(slug: string, filePath?: string): Category | null {
   if (typeof filePath === "string" && filePath !== "" && !filePath.endsWith(".md")) return null;
   // 폴더 페이지는 filePath가 없다. 루트 위치의 slug는 폴더 페이지일 수 있으므로 제외한다.
   if (!filePath && !slug.includes("/")) return null;
-  if (slug.startsWith("1-thoughts/")) return "thoughts";
-  if (slug.startsWith("3-object/31-music/")) return "music";
-  if (slug.startsWith("3-object/32-architecture/")) return "architecture";
-  if (slug.startsWith("2-wiki/") || !slug.includes("/")) return "wiki";
+  if (slug.startsWith("c_blog/")) return "thoughts";
+  if (slug.startsWith("b_object/b1_music/")) return "music";
+  if (slug.startsWith("b_object/b2_architecture/")) return "architecture";
+  if (slug.startsWith("a_wiki/") || !slug.includes("/")) return "wiki";
   return null;
 }
 

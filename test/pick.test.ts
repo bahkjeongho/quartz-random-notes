@@ -3,49 +3,49 @@ import { classify, pickNotes } from "../src/components/scripts/pick";
 
 function makeIndex(thoughts = 12) {
   const index: Record<string, { filePath?: string; title?: string }> = {};
-  for (let i = 0; i < thoughts; i++) index[`1-thoughts/t${i}`] = { filePath: `t${i}.md`, title: `T${i}` };
-  for (let i = 0; i < 2019; i++) index[`3-object/31-music/m${i}`] = { filePath: `x/m${i}.md`, title: `M${i}` };
-  for (let i = 0; i < 61; i++) index[`3-object/32-architecture/a${i}`] = { filePath: `x/a${i}.md`, title: `A${i}` };
-  for (let i = 0; i < 883; i++) index[`2-wiki/w${i}`] = { filePath: `x/w${i}.md`, title: `W${i}` };
+  for (let i = 0; i < thoughts; i++) index[`c_blog/t${i}`] = { filePath: `t${i}.md`, title: `T${i}` };
+  for (let i = 0; i < 2019; i++) index[`b_object/b1_music/m${i}`] = { filePath: `x/m${i}.md`, title: `M${i}` };
+  for (let i = 0; i < 61; i++) index[`b_object/b2_architecture/a${i}`] = { filePath: `x/a${i}.md`, title: `A${i}` };
+  for (let i = 0; i < 883; i++) index[`a_wiki/w${i}`] = { filePath: `x/w${i}.md`, title: `W${i}` };
   for (let i = 0; i < 48; i++) index[`root${i}`] = { filePath: `r${i}.md`, title: `R${i}` };
   index["index"] = { filePath: "index.md", title: "Home" };
   index["tags/design"] = { title: "Tag" };
-  index["3-object/31-music"] = { title: "Music folder" };
-  index["3-object"] = { title: "Object folder" };
-  index["2-wiki"] = { title: "Wiki folder" };
-  index["1-thoughts"] = { title: "Thoughts folder" };
-  index["1-thoughts/index"] = { filePath: "t/index.md", title: "thoughts index" };
-  index["3-object/31-music/index"] = { filePath: "x/index.md", title: "folder index" };
+  index["b_object/b1_music"] = { title: "Music folder" };
+  index["b_object"] = { title: "Object folder" };
+  index["a_wiki"] = { title: "Wiki folder" };
+  index["c_blog"] = { title: "Thoughts folder" };
+  index["c_blog/index"] = { filePath: "t/index.md", title: "thoughts index" };
+  index["b_object/b1_music/index"] = { filePath: "x/index.md", title: "folder index" };
   return index;
 }
 
 describe("classify: 숨김 폴더", () => {
   it("K-Pop 멤버 폴더는 뽑지 않는다", () => {
-    expect(classify("2-wiki/23-k-pop-idol/rm", "2 Wiki/23 K-Pop Idol/RM.md")).toBeNull();
-    expect(classify("2-wiki/24-academic-program/ma-fashion-csm", "2 Wiki/24 Academic Program/MA Fashion (CSM).md")).toBeNull();
-    expect(classify("2-wiki/25-sports-team/chicago-cubs", "2 Wiki/25 Sports Team/Chicago Cubs.md")).toBeNull();
-    expect(classify("2-wiki/26-journal/antikythera", "2 Wiki/26 Journal/Antikythera.md")).toBeNull();
-    expect(classify("2-wiki/aespa", "2 Wiki/aespa.md")).toBe("wiki");
+    expect(classify("a_wiki/a2_k-pop-idol/rm", "A_Wiki/A2_K-Pop Idol/RM.md")).toBeNull();
+    expect(classify("a_wiki/a3_academic-program/ma-fashion-csm", "A_Wiki/A3_Academic Program/MA Fashion (CSM).md")).toBeNull();
+    expect(classify("a_wiki/a5_sports-team/chicago-cubs", "A_Wiki/A5_Sports Team/Chicago Cubs.md")).toBeNull();
+    expect(classify("a_wiki/a4_journal/antikythera", "A_Wiki/A4_Journal/Antikythera.md")).toBeNull();
+    expect(classify("a_wiki/aespa", "A_Wiki/aespa.md")).toBe("wiki");
   });
 });
 
 describe("classify", () => {
   it("분야를 구분한다", () => {
-    expect(classify("3-object/31-music/x", "a.md")).toBe("music");
-    expect(classify("3-object/32-architecture/x", "a.md")).toBe("architecture");
-    expect(classify("2-wiki/x", "a.md")).toBe("wiki");
-    expect(classify("1-thoughts/x", "a.md")).toBe("thoughts");
+    expect(classify("b_object/b1_music/x", "a.md")).toBe("music");
+    expect(classify("b_object/b2_architecture/x", "a.md")).toBe("architecture");
+    expect(classify("a_wiki/x", "a.md")).toBe("wiki");
+    expect(classify("c_blog/x", "a.md")).toBe("thoughts");
     expect(classify("root-note", "a.md")).toBe("wiki");
   });
   it("노트가 아닌 페이지는 제외한다", () => {
     expect(classify("index")).toBeNull();
     expect(classify("tags/design")).toBeNull();
-    expect(classify("3-object")).toBeNull();
-    expect(classify("2-wiki")).toBeNull();
-    expect(classify("1-thoughts")).toBeNull();
-    expect(classify("1-thoughts/index", "i.md")).toBeNull();
-    expect(classify("3-object/31-music")).toBeNull();
-    expect(classify("3-object/31-music/index", "i.md")).toBeNull();
+    expect(classify("b_object")).toBeNull();
+    expect(classify("a_wiki")).toBeNull();
+    expect(classify("c_blog")).toBeNull();
+    expect(classify("c_blog/index", "i.md")).toBeNull();
+    expect(classify("b_object/b1_music")).toBeNull();
+    expect(classify("b_object/b1_music/index", "i.md")).toBeNull();
   });
 });
 
@@ -102,15 +102,15 @@ describe("pickNotes", () => {
 
   it("건축 노트가 모자라면 다른 분야로 채워 총 개수를 유지한다", () => {
     const index: Record<string, { filePath?: string; title?: string }> = {};
-    for (let i = 0; i < 30; i++) index[`2-wiki/w${i}`] = { filePath: `w${i}.md`, title: `W${i}` };
-    index["3-object/32-architecture/only"] = { filePath: "a.md", title: "Only" };
+    for (let i = 0; i < 30; i++) index[`a_wiki/w${i}`] = { filePath: `w${i}.md`, title: `W${i}` };
+    index["b_object/b2_architecture/only"] = { filePath: "a.md", title: "Only" };
     const notes = pickNotes(index, opts);
     expect(notes).toHaveLength(15);
     expect(notes.filter((n) => n.category === "architecture")).toHaveLength(1);
   });
 
   it("전체 노트가 15개보다 적으면 있는 만큼만 돌려준다", () => {
-    const index = { "2-wiki/a": { filePath: "a.md", title: "A" } };
+    const index = { "a_wiki/a": { filePath: "a.md", title: "A" } };
     expect(pickNotes(index, opts)).toHaveLength(1);
   });
 });
